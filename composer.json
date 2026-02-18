@@ -1,0 +1,24 @@
+{
+    "name": "sultan/easy-delivery",
+    "description": "Easy delivery description",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "easyDeliveryPickup\\Admin\\": "admin/",
+            "easyDeliveryPickup\\includes\\": "includes/",
+            "easyDeliveryPickup\\public\\": "public/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sultan Mahmud"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "config": {
+        "optimize-autoloader": true
+    }
+}

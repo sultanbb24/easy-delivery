@@ -1,0 +1,21 @@
+
+/* CLassic Checkout Style */
+.edp-checkout-pickup-fields, .edp-checkout-delivery-fields{display: none;}
+
+/*Calender Style*/
+
+.flatpickr-day.nextMonthDay, 
+.flatpickr-day.prevMonthDay {
+	color: #393939 !important; 
+	opacity: 1 !important;
+}
+.flatpickr-day.nextMonthDay.flatpickr-disabled,
+.flatpickr-day.prevMonthDay.flatpickr-disabled {
+	color: #cfcfcf !important; 
+	opacity: 0.3 !important;
+	cursor: not-allowed !important;
+}
+.flatpickr-day.nextMonthDay:hover,
+.flatpickr-day.prevMonthDay:hover {
+	background: #e6e6e6 !important;
+}

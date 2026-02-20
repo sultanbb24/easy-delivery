@@ -86,7 +86,7 @@ class Frontend{
 		$stores = get_transient('edp_stores_cache');
 
 		if(false === $stores){
-			$stores = $wpdb->get_results($wpdb->prepare("SELECT * FROM  `%i`", $table));
+			$stores = $wpdb->get_results("SELECT * FROM `". esc_sql($table) . "`ORDER BY id DESC");
 			set_transient('edp_stores_cache', $stores, DAY_IN_SECONDS);
 		}
 		if(empty($stores)){

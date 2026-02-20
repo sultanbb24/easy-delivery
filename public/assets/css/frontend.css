@@ -19,3 +19,8 @@
 .flatpickr-day.prevMonthDay:hover {
 	background: #e6e6e6 !important;
 }
+/* Hide days from the previous and next months */
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+	display: none !important;
+}

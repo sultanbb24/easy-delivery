@@ -1,5 +1,6 @@
 <?php
 defined('ABSPATH') || exit;
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 ?>
 <div class="edp-delivery-wrapper">
 	<div class="edp-checkout-order-type">
@@ -66,3 +67,5 @@ defined('ABSPATH') || exit;
 		<input type="hidden" name="edp_selected_delivery_store_name" id="edp_selected_delivery_store_name" value="">
 	</div>
 </div>
+<?php
+//phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

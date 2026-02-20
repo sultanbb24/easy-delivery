@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){
 	let dateRangeRestriction = edp_general_obj.date_range ? edp_general_obj.date_range : 30;
 	let disableSameDay = edp_general_obj.disable_same_day ? edp_general_obj.disable_same_day : 0;
+	console.log(disableSameDay);
 
 	//Date Picker function
 	function initDatePicker(selector, allowDays){
@@ -10,6 +11,7 @@ jQuery(document).ready(function($){
 			minDate: new Date().fp_incr(startOffset),
 			maxDate: new Date().fp_incr(parseInt(dateRangeRestriction)),
 			disableMobile: "true",
+			showMonths: 1,
 			enable: [
 				function(date){
 					const dayName = date.toLocaleDateString('en-US', {weekday: 'long'});

@@ -3,6 +3,7 @@
 //Prevent From Direct Access
 
 defined('ABSPATH') || exit;
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 ?>
 <div class="wrap edp-wrap">
@@ -10,9 +11,9 @@ defined('ABSPATH') || exit;
 		<h1><?php echo esc_html__('Easy Delivery & Pickup Settings', 'easy-delivery')?></h1>
 		<div class="nav-tab-wrapper">
 			<?php
-				foreach($this->tab as $tab_id => $tab_label){
+				foreach($this->tab as $edp_tab_id => $edp_tab_label){
 				?>
-					<a href="#" data-tab="<?php echo esc_attr($tab_id);?>" class="nav-tab edp-tab <?php echo $tab_id === 'general' ? 'nav-tab-active' : '' ?>"><?php echo esc_html($tab_label)?></a>
+					<a href="#" data-tab="<?php echo esc_attr($edp_tab_id);?>" class="nav-tab edp-tab <?php echo $edp_tab_id === 'general' ? 'nav-tab-active' : '' ?>"><?php echo esc_html($edp_tab_label)?></a>
 				<?php
 				} //End oreach Loop
 			?>
@@ -44,14 +45,14 @@ defined('ABSPATH') || exit;
 				<tbody>
 					<?php
 						global $wpdb;
-						$table_name = "{$wpdb->prefix}edp_store_details";
-						$cache_key = 'edp_store_list_admin';
-						$query = wp_cache_get($cache_key);
-						if( false === $query){
-							$query = $wpdb->get_results("SELECT * FROM `". esc_sql($table_name) . "`ORDER BY id DESC");
-							wp_cache_set($cache_key, $query);
+						$edp_table_name = "{$wpdb->prefix}edp_store_details";
+						$edp_cache_key = 'edp_store_list_admin';
+						$edp_query = wp_cache_get($edp_cache_key);
+						if( false === $edp_query){
+							$edp_query = $wpdb->get_results("SELECT * FROM `". esc_sql($edp_table_name) . "` ORDER BY id DESC"); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+							wp_cache_set($edp_cache_key, $edp_query);
 						}
-						if( empty($query)){
+						if( empty($edp_query)){
 							echo '
 								<tr>
 								<td colspan="7" style="text-align:center";> No Store Found. Click "Add New Store" to Create One.</td>
@@ -60,18 +61,18 @@ defined('ABSPATH') || exit;
 						}
 					?>
 					<?php
-						foreach($query as $data){
-							$opening_days =json_decode($data->opening_days,true);?>
+						foreach($edp_query as $edp_data){
+							$edp_opening_days =json_decode($edp_data->opening_days,true);?>
 							<tr>
-								<td><?php echo absint($data->id);?></td>
-								<td><?php echo esc_html($data->store_name);?></td>
-								<td><?php echo esc_html( $data->store_address);?></td>
-								<td><?php echo esc_html(implode(',', $opening_days));?></td>
-								<td><?php echo esc_html($data->pickup_time);?></td>
-								<td>$<?php echo number_format($data->delivery_charge,2);?></td>
+								<td><?php echo absint($edp_data->id);?></td>
+								<td><?php echo esc_html($edp_data->store_name);?></td>
+								<td><?php echo esc_html( $edp_data->store_address);?></td>
+								<td><?php echo esc_html(implode(',', $edp_opening_days));?></td>
+								<td><?php echo esc_html($edp_data->pickup_time);?></td>
+								<td>$<?php echo number_format($edp_data->delivery_charge,2);?></td>
 								<td>
-									<button type="button" class="button button-small edit_store" data-id="<?php echo absint($data->id);?>">Edit</button>
-									<button type="button" class="button button-small delete_store" data-id="<?php echo absint($data->id);?>">Delete</button>
+									<button type="button" class="button button-small edit_store" data-id="<?php echo absint($edp_data->id);?>">Edit</button>
+									<button type="button" class="button button-small delete_store" data-id="<?php echo absint($edp_data->id);?>">Delete</button>
 								</td>
 							</tr>
 							<?php
@@ -135,3 +136,5 @@ defined('ABSPATH') || exit;
 		</div>
 	</div>
 </div>
+<?php
+//phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

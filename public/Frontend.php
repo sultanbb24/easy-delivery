@@ -84,10 +84,13 @@ class Frontend{
 		global $wpdb;
 		$table = "{$wpdb->prefix}edp_store_details";
 		$stores = get_transient('edp_stores_cache');
+		delete_transient('edp_stores_cache');
 
 		if(false === $stores){
-			$stores = $wpdb->get_results("SELECT * FROM `". esc_sql($table) . "` ORDER BY id DESC");
-			set_transient('edp_stores_cache', $stores, DAY_IN_SECONDS);
+			$stores = $wpdb->get_results("SELECT * FROM `". esc_sql($table) . "` ORDER BY id DESC"); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			if(! empty($stores)){
+				set_transient('edp_stores_cache', $stores, DAY_IN_SECONDS);
+			}
 		}
 		if(empty($stores)){
 			return;
@@ -124,7 +127,7 @@ class Frontend{
 		return; // No need to check other fields if type isn't selected
 		}
 
-		$order_type = sanitize_text_field( $_POST['edp_checkout_order_type'] );
+		$order_type = sanitize_text_field(wp_unslash($_POST['edp_checkout_order_type']));
 
 		// 2. Validate based on selected type
 		if ( 'pickup' === $order_type ) {

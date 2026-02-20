@@ -15,6 +15,6 @@ delete_option('edp_general_option');
 /**
  * Delete Table
 */
-$table_name = "{$wpdb->prefix}edp_store_details";
-$wpdb->query("DROP TABLE IF EXISTS `" .esc_sql($table_name) . "`");
+$edp_table_name = "{$wpdb->prefix}edp_store_details"; //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$wpdb->query("DROP TABLE IF EXISTS `" .esc_sql($edp_table_name) . "`"); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 flush_rewrite_rules(false);

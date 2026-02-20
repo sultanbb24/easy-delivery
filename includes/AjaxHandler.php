@@ -32,7 +32,7 @@ class AjaxHandler{
 			wp_send_json_error('Unauthorized');
 		}
 		$data = Data::instance();
-		$form_data = isset($_POST['data']) ? wp_unslash($_POST['data']) : [] ; //Comes From Js SerializeArray
+		$form_data = isset($_POST['data']) ? wp_unslash($_POST['data']) : [] ; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		//Convert Serialize Array to Associative Array
 		$param = [];
 		foreach($form_data as $item){
@@ -61,11 +61,11 @@ class AjaxHandler{
 		}
 		global $wpdb;
 		$table_name = "{$wpdb->prefix}edp_store_details";
-		$store_id = isset($_POST['store_id']) ? intval($_POST['store_id']) : 0;
+		$store_id = isset($_POST['store_id']) ? sanitize_text_field(intval($_POST['store_id'])) : 0;
 		$cache_key = 'edp_store_' . $store_id;
 		$store = wp_cache_get($cache_key);
 		if(false === $store){
-			$store = $wpdb->get_row($wpdb->prepare("SELECT * FROM `%i` WHERE id = %d", $table_name, $store_id), ARRAY_A);
+			$store = $wpdb->get_row($wpdb->prepare("SELECT * FROM `" . esc_sql($table_name) . "` WHERE id = %d",  $store_id), ARRAY_A); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			wp_cache_set($cache_key, $store);
 		}
 		if($store){
@@ -83,8 +83,8 @@ class AjaxHandler{
 		}
 		global $wpdb;
 		$table_name = "{$wpdb->prefix}edp_store_details";
-		$store_id = isset($_POST['store_id']) ? intval($_POST['store_id']) : 0;
-		$result = $wpdb->delete($table_name, array('id' => $store_id));
+		$store_id = isset($_POST['store_id']) ? sanitize_text_field(intval($_POST['store_id'])) : 0;
+		$result = $wpdb->delete($table_name, array('id' => $store_id)); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		wp_cache_delete('edp_store_' . $store_id);
 		wp_cache_delete('edp_store_list_admin');
 		delete_transient('edp_stores_cache');

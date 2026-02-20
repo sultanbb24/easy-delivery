@@ -28,14 +28,15 @@ class FrontendAssets{
 
 			$general_settigns_options = get_option('edp_general_option');
 			$date_range_restriction = isset($general_settigns_options['calender_max_selectable_day']) ? $general_settigns_options['calender_max_selectable_day'] : '';
-			$disable_same_day = isset($general_settigns_options['disable_same_day']) && $general_settigns_options['disable_same_day'] === '1';
+			$disable_same_day = isset($general_settigns_options['disable_same_day']) && intval($general_settigns_options['disable_same_day'] === 1);
 			$selected_theme = isset($general_settigns_options['edp_calender_theme_field']) ? $general_settigns_options['edp_calender_theme_field'] : 'default';
-			wp_enqueue_style('edpCalender-css', EDP_URL . 'public/assets/css/edpCalender.min.css');
+			wp_enqueue_style('edpCalender-css', EDP_URL . 'public/assets/css/edpCalender.min.css', array(), '1.0.0');
 			if($selected_theme !== 'default'){
 				wp_enqueue_style(
 					'edp_theme',
-					"https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/{$selected_theme}.css",
-					array('edpCalender-css')
+					EDP_URL . "public/assets/css/{$selected_theme}.css",
+					array('edpCalender-css'),
+					'1.0.0'
 				);
 			}
 			wp_enqueue_script( 

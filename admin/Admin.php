@@ -52,7 +52,7 @@ class Admin{
 		$this->render_general_tab_content();
 	}
 	private function render_general_tab_content(){
-		register_setting($this->option_group, 'edp_general_option');
+		register_setting($this->option_group, 'edp_general_option',['sanitize_callback' => [$this, 'sanitize_general_option']]);
 		add_settings_section( 
 			'general_section', 
 			__('General Settings', 'easy-delivery'), 
@@ -77,7 +77,6 @@ class Admin{
 					'material_green' =>__('Material Green', 'easy-delivery') ,
 					'material_red' =>__('Material Red', 'easy-delivery') ,
 					'confetti' =>__('Confetti (Colorful)', 'easy-delivery') ,
-					'handheld' =>__('Handheld (Mobile Optimized)', 'easy-delivery') ,
 				),
 			),
 		);
@@ -198,5 +197,24 @@ class Admin{
 			'store' => __('Store Setting', 'easy-delivery'),
 		];
 		include __DIR__ . '/templates/easy-delivery-admin.php';
+	}
+	public function sanitize_general_option($input){
+		$sanitized = [];
+		if(isset($input['edp_calender_theme_field'])){
+			$sanitized['edp_calender_theme_field'] = sanitize_text_field($input['edp_calender_theme_field']);
+		}
+		if(isset($input['disable_same_day'])){
+			$sanitized['disable_same_day'] = isset($input['disable_same_day']) ? absint($input['disable_same_day']) : 0;
+		}
+		if(isset($input['calender_max_selectable_day']) && $input['calender_max_selectable_day'] !==''){
+			$sanitized['calender_max_selectable_day'] = absint($input['calender_max_selectable_day']);
+		}
+		if(isset($input['delivery_time']) && $input['delivery_time'] !==''){
+			$sanitized['delivery_time'] = absint($input['delivery_time']);
+		}
+		if(isset($input['max_delivery']) && $input['max_delivery'] !==''){
+			$sanitized['max_delivery'] = absint($input['max_delivery']);
+		}
+		return $sanitized;
 	}
 }

@@ -44,7 +44,7 @@ class Data{
 			'delivery_charge' =>floatval($args['delivery_charge']),
 		];
 		if($store_id > 0){
-			$updated = $wpdb->update(
+			$updated = $wpdb->update( //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$table, 
 			$data, 
 			['id' =>$store_id],
@@ -59,7 +59,7 @@ class Data{
 		}else{
 			$data['created_by'] = get_current_user_id();
 			$data['created_at'] = current_time('mysql');
-			$inserted = $wpdb->insert(
+			$inserted = $wpdb->insert( //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$table, 
 			$data, 
 			['%s', '%s', '%s', '%s', '%f', '%d', '%s'],);

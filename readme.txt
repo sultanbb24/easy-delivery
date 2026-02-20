@@ -1,11 +1,11 @@
 === Easy Delivery - Delivery & Pickup Option for Woocommerce ===
 Contributors: sultanb24
 Tags: woocommerce delivery date, woocommerce pickup date, woocommerce, woocommerce pickup location, Delivery & Pickup Date time
-Requires at least: 5.2
+Requires at least: 6.2
 Tested up to: 6.9.1
 stable tag: 1.0.0
 Requires PHP: 7.4
-License: GPLv3
+License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Let customers choose delivery/Pickup Location & dates on checkout. The lightweight, mobile-first solution for managing WooCommerce delivery dates.

@@ -4,8 +4,8 @@
  * Plugin URI: https://wordpress.org/plugins/easy-delivery/
  * Description: Easy Delivery- Provide delivery & Pickup Options for woocommerce Users to extend their business facility.
  * Version: 1.0.0
- * Requires at least: 5.2
- * Requires PHP: 7.2
+ * Requires at least: 6.2
+ * Requires PHP: 7.4
  * Author: Sultan Mahmud
  * Author URI: https://profiles.wordpress.org/sultanb24/
  * License: GPL v2 or later

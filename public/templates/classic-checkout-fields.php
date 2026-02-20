@@ -5,16 +5,16 @@ defined('ABSPATH') || exit;
 	<div class="edp-checkout-order-type">
 		<strong>Order Type</strong>
 		<select name="edp_checkout_order_type" id="edp_checkout_order_type">
-			<option value=""><?php _e('Select Order Type', 'easy-delivery');?></option>
+			<option value=""><?php esc_html_e('Select Order Type', 'easy-delivery');?></option>
 			<option value="pickup">Pickup</option>
 			<option value="delivery">Delivery</option>
 		</select>
 	</div>
 	<div class="edp-checkout-pickup-fields">
 		<p class="form-row form-row-wide">
-			<label for="edp_checkout_pickup_store"><?php _e('Pickup Store', 'easy-delivery');?></label>
+			<label for="edp_checkout_pickup_store"><?php esc_html_e('Pickup Store', 'easy-delivery');?></label>
 			<select name="edp_checkout_pickup_store" id="edp_checkout_pickup_store">
-				<option value=""><?php _e('Select Pickup Store', 'easy-delivery');?></option>
+				<option value=""><?php esc_html_e('Select Pickup Store', 'easy-delivery');?></option>
 				<?php
 					foreach($stores as $store):?>
 						<option value="<?php echo esc_attr($store->id);?>"
@@ -30,11 +30,11 @@ defined('ABSPATH') || exit;
 			</select>
 		</p>
 		<p class="form-row form-row-first">
-			<label for="edp_checkout_pickup_date"><?php _e('Pickup Date', 'easy-delivery');?></label>
+			<label for="edp_checkout_pickup_date"><?php esc_html_e('Pickup Date', 'easy-delivery');?></label>
 			<input type="text" name="edp_checkout_pickup_date" id="edp_checkout_pickup_date" value="" readonly>
 		</p>
 		<p class="form-row form-row-last">
-			<label for="edp_checkout_pickup_time"><?php _e('Pickup Time', 'easy-delivery');?></label>
+			<label for="edp_checkout_pickup_time"><?php esc_html_e('Pickup Time', 'easy-delivery');?></label>
 			<input type="text" name="edp_checkout_pickup_time" id="edp_checkout_pickup_time" value="" readonly>
 		</p>
 		<!-- Hidden Field -->
@@ -43,9 +43,9 @@ defined('ABSPATH') || exit;
 	</div>
 	<div class="edp-checkout-delivery-fields">
 		<p class="form-row form-row-wide">
-			<label for="edp_checkout_delivery_store"><?php _e('Delivery Store', 'easy-delivery');?></label>
+			<label for="edp_checkout_delivery_store"><?php esc_html_e('Delivery Store', 'easy-delivery');?></label>
 			<select name="edp_checkout_delivery_store" id="edp_checkout_delivery_store">
-				<option value=""><?php _e('Select Nearest Store', 'easy-delivery');?></option>
+				<option value=""><?php esc_html_e('Select Nearest Store', 'easy-delivery');?></option>
 				<?php
 					foreach($stores as $store):?>
 						<option value="<?php echo esc_attr($store->id);?>"
@@ -59,7 +59,7 @@ defined('ABSPATH') || exit;
 			</select>
 		</p>
 		<p class="form-row form-row-wide">
-			<label for="edp_checkout_delivery_date"><?php _e('Delivery Date', 'easy-delivery');?></label>
+			<label for="edp_checkout_delivery_date"><?php esc_html_e('Delivery Date', 'easy-delivery');?></label>
 			<input type="text" name="edp_checkout_delivery_date" id="edp_checkout_delivery_date" value="" readonly>
 		</p>
 		<!-- Hidden field -->

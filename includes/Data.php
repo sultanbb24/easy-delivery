@@ -52,6 +52,9 @@ class Data{
 			if( false === $updated){
 				return new \WP_Error('failed-to-updated', 'Failed to Update Data');
 			}
+			wp_cache_delete('edp_store_'. $store_id);
+			wp_cache_delete('edp_store_list_admin');
+			delete_transient('edp_store_cache');
 			return $store_id;
 		}else{
 			$data['created_by'] = get_current_user_id();
@@ -64,6 +67,8 @@ class Data{
 			if( ! $inserted){
 				return new \WP_Error('failed-to-insert', 'Failed to insert Data');
 			}
+			wp_cache_delete('edp_store_list_admin');
+			delete_transient('edp_store_cache');
 			return $wpdb->insert_id;
 		}
 	}

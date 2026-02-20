@@ -32,7 +32,7 @@ class AjaxHandler{
 			wp_send_json_error('Unauthorized');
 		}
 		$data = Data::instance();
-		$form_data = $_POST['data']; //Comes From Js SerializeArray
+		$form_data = isset($_POST['data']) ? wp_unslash($_POST['data']) : [] ; //Comes From Js SerializeArray
 		//Convert Serialize Array to Associative Array
 		$param = [];
 		foreach($form_data as $item){
@@ -47,6 +47,7 @@ class AjaxHandler{
 		if(is_wp_error($result)){
 			wp_send_json_error($result->get_error_message());
 		}
+		wp_cache_delete('edp_store_list_admin');
 		delete_transient('edp_stores_cache');
 		wp_send_json_success([
 			'message' => $store_id > 0 ? 'Store Update Successfully' : 'Store Saved Successfully',
@@ -60,8 +61,13 @@ class AjaxHandler{
 		}
 		global $wpdb;
 		$table_name = "{$wpdb->prefix}edp_store_details";
-		$store_id = intval($_POST['store_id']);
-		$store = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $store_id), ARRAY_A);
+		$store_id = isset($_POST['store_id']) ? intval($_POST['store_id']) : 0;
+		$cache_key = 'edp_store_' . $store_id;
+		$store = wp_cache_get($cache_key);
+		if(false === $store){
+			$store = $wpdb->get_row($wpdb->prepare("SELECT * FROM `%i` WHERE id = %d", $table_name, $store_id), ARRAY_A);
+			wp_cache_set($cache_key, $store);
+		}
 		if($store){
 			$store['opening_days'] = json_decode($store['opening_days'], true);
 			wp_send_json_success($store);
@@ -77,8 +83,10 @@ class AjaxHandler{
 		}
 		global $wpdb;
 		$table_name = "{$wpdb->prefix}edp_store_details";
-		$store_id = intval($_POST['store_id']);
+		$store_id = isset($_POST['store_id']) ? intval($_POST['store_id']) : 0;
 		$result = $wpdb->delete($table_name, array('id' => $store_id));
+		wp_cache_delete('edp_store_' . $store_id);
+		wp_cache_delete('edp_store_list_admin');
 		delete_transient('edp_stores_cache');
 		if($result){
 			wp_send_json_success('Store Deleted Successfully! Refreshing');

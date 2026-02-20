@@ -47,29 +47,34 @@ class Frontend{
 			}
 		}
 		//Classic Page Checkout Operation
+		if(isset($_POST['woocommerce-process-checkout-nonce'])){
+			if( ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')){
+				return;
+			}
+		}
 		if(isset($_POST['edp_checkout_order_type']) && ! empty($_POST['edp_checkout_order_type'])){
-			$order_type = sanitize_text_field($_POST['edp_checkout_order_type']);
+			$order_type = sanitize_text_field(wp_unslash($_POST['edp_checkout_order_type']));
 			$item->add_meta_data(__('Order Type', 'easy-delivery'), $order_type);
 
 			if($order_type === 'pickup'){
 				if( ! empty($_POST['edp_selected_pickup_store_name'])){
-					$item->add_meta_data(__('Pickup Store', 'easy-delivery'), sanitize_text_field($_POST['edp_selected_pickup_store_name']));
+					$item->add_meta_data(__('Pickup Store', 'easy-delivery'), sanitize_text_field(wp_unslash($_POST['edp_selected_pickup_store_name'])));
 				}
 				if( ! empty($_POST['edp_selected_pickup_store_address'])){
-					$item->add_meta_data(__('Store Address', 'easy-delivery'), sanitize_text_field($_POST['edp_selected_pickup_store_address']));
+					$item->add_meta_data(__('Store Address', 'easy-delivery'), sanitize_text_field(wp_unslash($_POST['edp_selected_pickup_store_address'])));
 				}
 				if( ! empty($_POST['edp_checkout_pickup_date'])){
-					$item->add_meta_data(__('Pickup Date', 'easy-delivery'), sanitize_text_field($_POST['edp_checkout_pickup_date']));
+					$item->add_meta_data(__('Pickup Date', 'easy-delivery'), sanitize_text_field( wp_unslash($_POST['edp_checkout_pickup_date'])));
 				}
 				if( ! empty($_POST['edp_checkout_pickup_time'])){
-					$item->add_meta_data(__('Pickup Time', 'easy-delivery'), sanitize_text_field($_POST['edp_checkout_pickup_time']));
+					$item->add_meta_data(__('Pickup Time', 'easy-delivery'), sanitize_text_field(wp_unslash($_POST['edp_checkout_pickup_time'])));
 				}
 			}else{
 				if( ! empty($_POST['edp_selected_delivery_store_name'])){
-					$item->add_meta_data(__('Delivery Store', 'easy-delivery'), sanitize_text_field($_POST['edp_selected_delivery_store_name']));
+					$item->add_meta_data(__('Delivery Store', 'easy-delivery'), sanitize_text_field(wp_unslash($_POST['edp_selected_delivery_store_name'])));
 				}
 				if( ! empty($_POST['edp_checkout_delivery_date'])){
-					$item->add_meta_data(__('Delivery Date', 'easy-delivery'), sanitize_text_field($_POST['edp_checkout_delivery_date']));
+					$item->add_meta_data(__('Delivery Date', 'easy-delivery'), sanitize_text_field(wp_unslash($_POST['edp_checkout_delivery_date'])));
 				}
 			}
 		}
@@ -81,7 +86,7 @@ class Frontend{
 		$stores = get_transient('edp_stores_cache');
 
 		if(false === $stores){
-			$stores = $wpdb->get_results("SELECT * FROM $table");
+			$stores = $wpdb->get_results($wpdb->prepare("SELECT * FROM  `%i`", $table));
 			set_transient('edp_stores_cache', $stores, DAY_IN_SECONDS);
 		}
 		if(empty($stores)){
@@ -109,6 +114,11 @@ class Frontend{
 		}
 	}
 	public function checkout_fields_validation(){
+		if(isset($_POST['woocommerce-process-checkout-nonce'])){
+			if( ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')){
+				return;
+			}
+		}
 		if ( empty( $_POST['edp_checkout_order_type'] ) ) {
 		wc_add_notice( __( 'Please select an <strong>Order Type</strong> (Pickup or Delivery).', 'easy-delivery' ), 'error' );
 		return; // No need to check other fields if type isn't selected

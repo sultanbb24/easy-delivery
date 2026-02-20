@@ -148,9 +148,9 @@ class Admin{
 		$readonly = ! empty($feature) ? 'readonly' : ''; 
 		printf(
 			'<input type="number" class="small-text" id="%s" name="%s[%s]" value="%s" min="0" step="1" %s>',
-			$args['label_for'],
-			$args['option_name'],
-			$args['field_name'],
+			esc_attr($args['label_for']),
+			esc_attr($args['option_name']),
+			esc_attr($args['field_name']),
 			esc_attr($value),
 			esc_attr($readonly),
 		);

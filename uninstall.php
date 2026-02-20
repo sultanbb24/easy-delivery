@@ -16,6 +16,5 @@ delete_option('edp_general_option');
  * Delete Table
 */
 $table_name = "{$wpdb->prefix}edp_store_details";
-$sql = "DROP TABLE IF EXISTS $table_name";
-$wpdb->query($sql);
+$wpdb->query("DROP TABLE IF EXISTS `" .esc_sql($table_name) . "`");
 flush_rewrite_rules(false);

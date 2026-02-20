@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 			<?php
 				foreach($this->tab as $tab_id => $tab_label){
 				?>
-					<a href="#" data-tab="<?php echo $tab_id;?>" class="nav-tab edp-tab <?php echo $tab_id === 'general' ? 'nav-tab-active' : '' ?>"><?php echo esc_html($tab_label)?></a>
+					<a href="#" data-tab="<?php echo esc_attr($tab_id);?>" class="nav-tab edp-tab <?php echo $tab_id === 'general' ? 'nav-tab-active' : '' ?>"><?php echo esc_html($tab_label)?></a>
 				<?php
 				} //End oreach Loop
 			?>
@@ -45,7 +45,12 @@ defined('ABSPATH') || exit;
 					<?php
 						global $wpdb;
 						$table_name = "{$wpdb->prefix}edp_store_details";
-						$query = $wpdb->get_results("SELECT * FROM {$table_name} ORDER BY id DESC");
+						$cache_key = 'edp_store_list_admin';
+						$query = wp_cache_get($cache_key);
+						if( false === $query){
+							$query = $wpdb->get_results( $wpdb->prepare("SELECT * FROM `%i` ORDER BY id DESC", $table_name));
+							wp_cache_set($cache_key, $query);
+						}
 						if( empty($query)){
 							echo '
 								<tr>
@@ -58,15 +63,15 @@ defined('ABSPATH') || exit;
 						foreach($query as $data){
 							$opening_days =json_decode($data->opening_days,true);?>
 							<tr>
-								<td><?php echo $data->id;?></td>
+								<td><?php echo absint($data->id);?></td>
 								<td><?php echo esc_html($data->store_name);?></td>
 								<td><?php echo esc_html( $data->store_address);?></td>
-								<td><?php echo implode(',', $opening_days)?></td>
+								<td><?php echo esc_html(implode(',', $opening_days));?></td>
 								<td><?php echo esc_html($data->pickup_time);?></td>
 								<td>$<?php echo number_format($data->delivery_charge,2);?></td>
 								<td>
-									<button type="button" class="button button-small edit_store" data-id="<?php echo $data->id;?>">Edit</button>
-									<button type="button" class="button button-small delete_store" data-id="<?php echo $data->id;?>">Delete</button>
+									<button type="button" class="button button-small edit_store" data-id="<?php echo absint($data->id);?>">Edit</button>
+									<button type="button" class="button button-small delete_store" data-id="<?php echo absint($data->id);?>">Delete</button>
 								</td>
 							</tr>
 							<?php

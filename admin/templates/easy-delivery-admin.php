@@ -48,7 +48,7 @@ defined('ABSPATH') || exit;
 						$cache_key = 'edp_store_list_admin';
 						$query = wp_cache_get($cache_key);
 						if( false === $query){
-							$query = $wpdb->get_results( $wpdb->prepare("SELECT * FROM `%i` ORDER BY id DESC", $table_name));
+							$query = $wpdb->get_results("SELECT * FROM `". esc_sql($table_name) . "`ORDER BY id DESC");
 							wp_cache_set($cache_key, $query);
 						}
 						if( empty($query)){
